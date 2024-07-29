@@ -1,15 +1,8 @@
+#include <endian/endian.h>
 #include <gtest/gtest.h>
 
-#include "endian/endian.h"
-
-TEST(EndianTest, AssumedEndianValueEqualActual)
+TEST(EndianTest, AssumedEndianValueEqualToNative)
 {
-    ASSERT_EQ(endian::kValue /*assumed endian value*/,
-              endian::value() /*actual endian value*/);
-}
-
-TEST(EndianTest, AssumedEndianNameEqualActual)
-{
-    ASSERT_EQ(endian::kName /*assumed endian name*/,
-              endian::name() /*actual endian name*/);
+    ASSERT_EQ(endian::eEndian::kNative /*assumed endian value*/,
+              endian::native_endian() /*actual endian value*/);
 }

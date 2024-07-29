@@ -1,4 +1,4 @@
-set(cmake_version 3.15.7)
+set(cmake_version 3.15)
 
 cmake_minimum_required(VERSION ${cmake_version})
 
@@ -8,7 +8,7 @@ include(FetchContent)
 FetchContent_Declare(
     cmake-toolchains
     GIT_REPOSITORY https://github.com/rokoDev/cmake-toolchains.git
-    GIT_TAG        b7570c00c0967ca80266cabcfa6a23d2e98d891f
+    GIT_TAG        baec2846aef97138ef9d693ee7162d23098aed73
 )
 
 FetchContent_MakeAvailable(cmake-toolchains)
@@ -38,13 +38,15 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Create library
 add_library(endian INTERFACE)
 
+add_library(Endian::endian ALIAS endian)
+
 # Add sources, definitions, link dependencies, etc.
 add_subdirectory(sources)
 
 # Create groups in the IDE which mirrors directory structure on the hard disk
 get_target_property(endian_sources endian SOURCES)
 source_group(
-  TREE   ${CMAKE_CURRENT_SOURCE_DIR}/sources/include
+  TREE   ${CMAKE_CURRENT_SOURCE_DIR}/sources/include/endian
   FILES  ${endian_sources}
 )
 
