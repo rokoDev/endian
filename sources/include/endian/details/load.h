@@ -112,6 +112,19 @@ inline constexpr T load(std::byte const *aBuffer, std::size_t N) noexcept
     assert(N <= sizeof(T));
     return details::load_functions<T, FROM_E>[N - 1](aBuffer);
 }
+
+template <eEndian FROM_E, typename T, std::size_t N = sizeof(T)>
+inline constexpr void load_inplace(T &aValue, std::byte const *aBuffer) noexcept
+{
+    aValue = load<T, FROM_E, N>(aBuffer);
+}
+
+template <eEndian FROM_E, typename T>
+inline constexpr void load_inplace(T &aValue, std::size_t N,
+                                   std::byte const *aBuffer) noexcept
+{
+    aValue = load<T, FROM_E>(aBuffer, N);
+}
 }  // namespace endian
 
 #endif /* endian_load_h */
