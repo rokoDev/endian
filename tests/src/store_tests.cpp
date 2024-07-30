@@ -26,7 +26,7 @@ template <typename Buf, eEndian To, std::size_t N, typename U>
 constexpr Buf store_result(U aValue) noexcept
 {
     Buf buffer{};
-    endian::store<U, To, N>(buffer.data(), aValue);
+    endian::store<To, U, N>(buffer.data(), aValue);
     return buffer;
 }
 
@@ -569,8 +569,8 @@ TEST_F(StoreUInt64WithNParam, ToLittle)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kLittle>(result[i].data(), 0x807060504030201,
-                                        i + 1);
+        store<eEndian::kLittle>(result[i].data(), uint_t{0x807060504030201},
+                                i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -597,8 +597,8 @@ TEST_F(StoreUInt64WithNParam, ConstexprToLittle)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kLittle>(tmp[i].data(), 0x807060504030201,
-                                            i + 1);
+            store<eEndian::kLittle>(tmp[i].data(), uint_t{0x807060504030201},
+                                    i + 1);
         }
         return tmp;
     }();
@@ -626,8 +626,8 @@ TEST_F(StoreUInt64WithNParam, ToBig)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kBig>(result[i].data(), 0x102030405060708,
-                                     i + 1);
+        store<eEndian::kBig>(result[i].data(), uint_t{0x102030405060708},
+                             i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -654,8 +654,8 @@ TEST_F(StoreUInt64WithNParam, ConstexprToBig)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kBig>(tmp[i].data(), 0x102030405060708,
-                                         i + 1);
+            store<eEndian::kBig>(tmp[i].data(), uint_t{0x102030405060708},
+                                 i + 1);
         }
         return tmp;
     }();
@@ -676,7 +676,7 @@ TEST_F(StoreUInt32WithNParam, ToLittle)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kLittle>(result[i].data(), 0x4030201, i + 1);
+        store<eEndian::kLittle>(result[i].data(), uint_t{0x4030201}, i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -695,7 +695,7 @@ TEST_F(StoreUInt32WithNParam, ConstexprToLittle)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kLittle>(tmp[i].data(), 0x4030201, i + 1);
+            store<eEndian::kLittle>(tmp[i].data(), uint_t{0x4030201}, i + 1);
         }
         return tmp;
     }();
@@ -715,7 +715,7 @@ TEST_F(StoreUInt32WithNParam, ToBig)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kBig>(result[i].data(), 0x5060708, i + 1);
+        store<eEndian::kBig>(result[i].data(), uint_t{0x5060708}, i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -734,7 +734,7 @@ TEST_F(StoreUInt32WithNParam, ConstexprToBig)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kBig>(tmp[i].data(), 0x5060708, i + 1);
+            store<eEndian::kBig>(tmp[i].data(), uint_t{0x5060708}, i + 1);
         }
         return tmp;
     }();
@@ -751,7 +751,7 @@ TEST_F(StoreUInt16WithNParam, ToLittle)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kLittle>(result[i].data(), 0x201, i + 1);
+        store<eEndian::kLittle>(result[i].data(), uint_t{0x201}, i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -767,7 +767,7 @@ TEST_F(StoreUInt16WithNParam, ConstexprToLittle)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kLittle>(tmp[i].data(), 0x201, i + 1);
+            store<eEndian::kLittle>(tmp[i].data(), uint_t{0x201}, i + 1);
         }
         return tmp;
     }();
@@ -783,7 +783,7 @@ TEST_F(StoreUInt16WithNParam, ToBig)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kBig>(result[i].data(), 0x708, i + 1);
+        store<eEndian::kBig>(result[i].data(), uint_t{0x708}, i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -799,7 +799,7 @@ TEST_F(StoreUInt16WithNParam, ConstexprToBig)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kBig>(tmp[i].data(), 0x708, i + 1);
+            store<eEndian::kBig>(tmp[i].data(), uint_t{0x708}, i + 1);
         }
         return tmp;
     }();
@@ -816,7 +816,7 @@ TEST_F(StoreUInt8WithNParam, ToLittle)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kLittle>(result[i].data(), 0x1, i + 1);
+        store<eEndian::kLittle>(result[i].data(), uint_t{0x1}, i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -831,7 +831,7 @@ TEST_F(StoreUInt8WithNParam, ConstexprToLittle)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kLittle>(tmp[i].data(), 0x1, i + 1);
+            store<eEndian::kLittle>(tmp[i].data(), uint_t{0x1}, i + 1);
         }
         return tmp;
     }();
@@ -847,7 +847,7 @@ TEST_F(StoreUInt8WithNParam, ToBig)
     val_array result{};
     for (std::size_t i = 0; i < sizeof(uint_t); ++i)
     {
-        store<uint_t, eEndian::kBig>(result[i].data(), 0x8, i + 1);
+        store<eEndian::kBig>(result[i].data(), uint_t{0x8}, i + 1);
     }
     ASSERT_EQ(expected, result);
 }
@@ -862,7 +862,7 @@ TEST_F(StoreUInt8WithNParam, ConstexprToBig)
         val_array tmp{};
         for (std::size_t i = 0; i < sizeof(uint_t); ++i)
         {
-            store<uint_t, eEndian::kBig>(tmp[i].data(), 0x8, i + 1);
+            store<eEndian::kBig>(tmp[i].data(), uint_t{0x8}, i + 1);
         }
         return tmp;
     }();
