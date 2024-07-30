@@ -26,7 +26,7 @@ template <typename Buf, eEndian To, std::size_t N, typename U>
 constexpr Buf store_result(U aValue) noexcept
 {
     Buf buffer{};
-    endian::store<To, U, N>(buffer.data(), aValue);
+    endian::store<To, N>(buffer.data(), aValue);
     return buffer;
 }
 

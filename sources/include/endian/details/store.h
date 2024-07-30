@@ -12,7 +12,7 @@
 
 namespace endian
 {
-template <eEndian TO_E, typename T, std::size_t N = sizeof(T)>
+template <eEndian TO_E, std::size_t N, typename T>
 inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept;
 
 namespace details
@@ -82,7 +82,7 @@ template <typename T, eEndian TO_E, std::size_t... I>
 constexpr decltype(auto) create_store_funcs_array(std::index_sequence<I...>)
 {
     using store_func = void (*)(std::byte *, const T &) noexcept;
-    return std::array<store_func, sizeof...(I)>{store<TO_E, T, I + 1>...};
+    return std::array<store_func, sizeof...(I)>{store<TO_E, I + 1, T>...};
 }
 
 template <typename T, eEndian TO_E>
@@ -90,7 +90,7 @@ inline constexpr auto store_functions =
     create_store_funcs_array<T, TO_E>(std::make_index_sequence<sizeof(T)>{});
 }  // namespace details
 
-template <eEndian TO_E, typename T, std::size_t N>
+template <eEndian TO_E, std::size_t N, typename T>
 inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept
 {
     assert(aBuffer);
@@ -100,6 +100,12 @@ inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept
     static_assert(details::is_uint_v<T>);
     static_assert((TO_E == eEndian::kLittle) || (TO_E == eEndian::kBig));
     details::store_impl<T, N, eEndian::kNative, TO_E>()(aBuffer, aValue);
+}
+
+template <eEndian TO_E, typename T>
+inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept
+{
+    store<TO_E, sizeof(T)>(aBuffer, aValue);
 }
 
 template <eEndian TO_E, typename T>
