@@ -12,23 +12,20 @@
 
 namespace endian
 {
-template <eEndian TO_E, std::size_t N, typename T>
-inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept;
-
 namespace details
 {
-template <typename T, std::size_t N, eEndian FROM_E, eEndian TO_E>
+template <typename T, eEndian FROM_E, eEndian TO_E>
 struct store_constexpr_impl
 {
 };
 
-template <typename T, std::size_t N, eEndian FROM_E>
-struct store_constexpr_impl<T, N, FROM_E, eEndian::kLittle>
+template <typename T, eEndian FROM_E>
+struct store_constexpr_impl<T, FROM_E, eEndian::kLittle>
 {
-    inline constexpr void operator()(std::byte *aBuffer,
-                                     const T &aValue) noexcept
+    inline constexpr void operator()(std::byte *aBuffer, const T &aValue,
+                                     std::size_t N) noexcept
     {
-        static_assert(N <= sizeof(T));
+        assert(N <= sizeof(T));
         for (std::size_t i = 0; i < N; ++i)
         {
             aBuffer[i] = static_cast<std::byte>(aValue >> i * CHAR_BIT);
@@ -36,13 +33,13 @@ struct store_constexpr_impl<T, N, FROM_E, eEndian::kLittle>
     }
 };
 
-template <typename T, std::size_t N, eEndian FROM_E>
-struct store_constexpr_impl<T, N, FROM_E, eEndian::kBig>
+template <typename T, eEndian FROM_E>
+struct store_constexpr_impl<T, FROM_E, eEndian::kBig>
 {
-    inline constexpr void operator()(std::byte *aBuffer,
-                                     const T &aValue) noexcept
+    inline constexpr void operator()(std::byte *aBuffer, const T &aValue,
+                                     std::size_t N) noexcept
     {
-        static_assert(N <= sizeof(T));
+        assert(N <= sizeof(T));
         for (std::size_t i = 0; i < N; ++i)
         {
             aBuffer[i] =
@@ -51,15 +48,15 @@ struct store_constexpr_impl<T, N, FROM_E, eEndian::kBig>
     }
 };
 
-template <typename T, std::size_t N, eEndian FROM_E, eEndian TO_E>
+template <typename T, eEndian FROM_E, eEndian TO_E>
 struct store_impl
 {
-    inline constexpr void operator()(std::byte *aBuffer,
-                                     const T &aValue) noexcept
+    static inline constexpr void store(std::byte *aBuffer, const T &aValue,
+                                       std::size_t N) noexcept
     {
         if (__builtin_is_constant_evaluated())
         {
-            return store_constexpr_impl<T, N, FROM_E, TO_E>()(aBuffer, aValue);
+            return store_constexpr_impl<T, FROM_E, TO_E>()(aBuffer, aValue, N);
         }
         else
         {
@@ -77,44 +74,25 @@ struct store_impl
         }
     }
 };
-
-template <typename T, eEndian TO_E, std::size_t... I>
-constexpr decltype(auto) create_store_funcs_array(std::index_sequence<I...>)
-{
-    using store_func = void (*)(std::byte *, const T &) noexcept;
-    return std::array<store_func, sizeof...(I)>{store<TO_E, I + 1, T>...};
-}
-
-template <typename T, eEndian TO_E>
-inline constexpr auto store_functions =
-    create_store_funcs_array<T, TO_E>(std::make_index_sequence<sizeof(T)>{});
 }  // namespace details
-
-template <eEndian TO_E, std::size_t N, typename T>
-inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept
-{
-    assert(aBuffer);
-    static_assert(N > 0);
-    static_assert(N <= sizeof(T));
-    static_assert(details::is_sizeof_one_of_v<T, 1, 2, 4, 8>);
-    static_assert(details::is_uint_v<T>);
-    static_assert((TO_E == eEndian::kLittle) || (TO_E == eEndian::kBig));
-    details::store_impl<T, N, eEndian::kNative, TO_E>()(aBuffer, aValue);
-}
-
-template <eEndian TO_E, typename T>
-inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept
-{
-    store<TO_E, sizeof(T)>(aBuffer, aValue);
-}
 
 template <eEndian TO_E, typename T>
 inline constexpr void store(std::byte *aBuffer, const T &aValue,
                             std::size_t N) noexcept
 {
+    assert(aBuffer);
     assert(N > 0);
     assert(N <= sizeof(T));
-    details::store_functions<T, TO_E>[N - 1](aBuffer, aValue);
+    static_assert(details::is_sizeof_one_of_v<T, 1, 2, 4, 8>);
+    static_assert(details::is_uint_v<T>);
+    static_assert((TO_E == eEndian::kLittle) || (TO_E == eEndian::kBig));
+    details::store_impl<T, eEndian::kNative, TO_E>::store(aBuffer, aValue, N);
+}
+
+template <eEndian TO_E, typename T>
+inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept
+{
+    store<TO_E>(aBuffer, aValue, sizeof(T));
 }
 }  // namespace endian
 

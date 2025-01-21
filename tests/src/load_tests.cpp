@@ -38,28 +38,28 @@ using LoadUInt8From1Byte = load_template<std::uint8_t, 1>;
 TEST_F(LoadUInt8From1Byte, FromLittle)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt8From1Byte, ConstexprFromLittle)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt8From1Byte, FromBig)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt8From1Byte, ConstexprFromBig)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -68,28 +68,28 @@ using LoadUInt16From1Byte = load_template<std::uint16_t, 1>;
 TEST_F(LoadUInt16From1Byte, FromLittle)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt16From1Byte, ConstexprFromLittle)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt16From1Byte, FromBig)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt16From1Byte, ConstexprFromBig)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -97,28 +97,28 @@ using LoadUInt16From2Bytes = load_template<std::uint16_t, 2>;
 TEST_F(LoadUInt16From2Bytes, FromLittle)
 {
     uint_t expected = {0x201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt16From2Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt16From2Bytes, FromBig)
 {
     uint_t expected = uint_t{0x102};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt16From2Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x102};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -127,28 +127,28 @@ using LoadUInt32From1Byte = load_template<std::uint32_t, 1>;
 TEST_F(LoadUInt32From1Byte, FromLittle)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From1Byte, ConstexprFromLittle)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt32From1Byte, FromBig)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From1Byte, ConstexprFromBig)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -156,28 +156,28 @@ using LoadUInt32From2Bytes = load_template<std::uint32_t, 2>;
 TEST_F(LoadUInt32From2Bytes, FromLittle)
 {
     uint_t expected = {0x201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From2Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt32From2Bytes, FromBig)
 {
     uint_t expected = uint_t{0x102};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From2Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x102};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -185,28 +185,28 @@ using LoadUInt32From3Bytes = load_template<std::uint32_t, 3>;
 TEST_F(LoadUInt32From3Bytes, FromLittle)
 {
     uint_t expected = {0x30201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From3Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x30201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt32From3Bytes, FromBig)
 {
     uint_t expected = uint_t{0x10203};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From3Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x10203};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -214,28 +214,28 @@ using LoadUInt32From4Bytes = load_template<std::uint32_t, 4>;
 TEST_F(LoadUInt32From4Bytes, FromLittle)
 {
     uint_t expected = {0x4030201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From4Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x4030201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt32From4Bytes, FromBig)
 {
     uint_t expected = uint_t{0x1020304};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt32From4Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x1020304};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -244,28 +244,28 @@ using LoadUInt64From1Byte = load_template<std::uint64_t, 1>;
 TEST_F(LoadUInt64From1Byte, FromLittle)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From1Byte, ConstexprFromLittle)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From1Byte, FromBig)
 {
     uint_t expected{0x1};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From1Byte, ConstexprFromBig)
 {
     constexpr uint_t expected{0x1};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -273,28 +273,28 @@ using LoadUInt64From2Bytes = load_template<std::uint64_t, 2>;
 TEST_F(LoadUInt64From2Bytes, FromLittle)
 {
     uint_t expected = {0x201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From2Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From2Bytes, FromBig)
 {
     uint_t expected = uint_t{0x102};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From2Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x102};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -302,28 +302,28 @@ using LoadUInt64From3Bytes = load_template<std::uint64_t, 3>;
 TEST_F(LoadUInt64From3Bytes, FromLittle)
 {
     uint_t expected = {0x30201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From3Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x30201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From3Bytes, FromBig)
 {
     uint_t expected = uint_t{0x10203};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From3Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x10203};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -331,28 +331,28 @@ using LoadUInt64From4Bytes = load_template<std::uint64_t, 4>;
 TEST_F(LoadUInt64From4Bytes, FromLittle)
 {
     uint_t expected = {0x4030201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From4Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x4030201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From4Bytes, FromBig)
 {
     uint_t expected = uint_t{0x1020304};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From4Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x1020304};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -360,28 +360,28 @@ using LoadUInt64From5Bytes = load_template<std::uint64_t, 5>;
 TEST_F(LoadUInt64From5Bytes, FromLittle)
 {
     uint_t expected = {0x504030201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From5Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x504030201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From5Bytes, FromBig)
 {
     uint_t expected = uint_t{0x102030405};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From5Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x102030405};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -389,28 +389,28 @@ using LoadUInt64From6Bytes = load_template<std::uint64_t, 6>;
 TEST_F(LoadUInt64From6Bytes, FromLittle)
 {
     uint_t expected = {0x60504030201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From6Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x60504030201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From6Bytes, FromBig)
 {
     uint_t expected = uint_t{0x10203040506};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From6Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x10203040506};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -418,28 +418,28 @@ using LoadUInt64From7Bytes = load_template<std::uint64_t, 7>;
 TEST_F(LoadUInt64From7Bytes, FromLittle)
 {
     uint_t expected = {0x7060504030201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From7Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x7060504030201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From7Bytes, FromBig)
 {
     uint_t expected = uint_t{0x1020304050607};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From7Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x1020304050607};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
@@ -447,28 +447,28 @@ using LoadUInt64From8Bytes = load_template<std::uint64_t, 8>;
 TEST_F(LoadUInt64From8Bytes, FromLittle)
 {
     uint_t expected = {0x807060504030201};
-    uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From8Bytes, ConstexprFromLittle)
 {
     constexpr uint_t expected = {0x807060504030201};
-    constexpr uint_t result = load<uint_t, eEndian::kLittle, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kLittle>(buffer, N);
     static_assert(expected == result);
 }
 
 TEST_F(LoadUInt64From8Bytes, FromBig)
 {
     uint_t expected = uint_t{0x102030405060708};
-    uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     ASSERT_EQ(expected, result);
 }
 
 TEST_F(LoadUInt64From8Bytes, ConstexprFromBig)
 {
     constexpr uint_t expected = uint_t{0x102030405060708};
-    constexpr uint_t result = load<uint_t, eEndian::kBig, N>(buffer);
+    constexpr uint_t result = load<uint_t, eEndian::kBig>(buffer, N);
     static_assert(expected == result);
 }
 
