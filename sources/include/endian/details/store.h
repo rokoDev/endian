@@ -14,15 +14,16 @@ namespace endian
 {
 namespace details
 {
-template <typename T, eEndian FROM_E, eEndian TO_E>
+template <eEndian FROM_E, eEndian TO_E>
 struct store_constexpr_impl
 {
 };
 
-template <typename T, eEndian FROM_E>
-struct store_constexpr_impl<T, FROM_E, eEndian::kLittle>
+template <eEndian FROM_E>
+struct store_constexpr_impl<FROM_E, eEndian::kLittle>
 {
-    inline constexpr void operator()(std::byte *aBuffer, const T &aValue,
+    template <typename T>
+    inline constexpr void operator()(std::byte *aBuffer, T &&aValue,
                                      std::size_t N) noexcept
     {
         assert(N <= sizeof(T));
@@ -33,10 +34,11 @@ struct store_constexpr_impl<T, FROM_E, eEndian::kLittle>
     }
 };
 
-template <typename T, eEndian FROM_E>
-struct store_constexpr_impl<T, FROM_E, eEndian::kBig>
+template <eEndian FROM_E>
+struct store_constexpr_impl<FROM_E, eEndian::kBig>
 {
-    inline constexpr void operator()(std::byte *aBuffer, const T &aValue,
+    template <typename T>
+    inline constexpr void operator()(std::byte *aBuffer, T &&aValue,
                                      std::size_t N) noexcept
     {
         assert(N <= sizeof(T));
@@ -48,19 +50,21 @@ struct store_constexpr_impl<T, FROM_E, eEndian::kBig>
     }
 };
 
-template <typename T, eEndian FROM_E, eEndian TO_E>
+template <eEndian FROM_E, eEndian TO_E>
 struct store_impl
 {
-    static inline constexpr void store(std::byte *aBuffer, const T &aValue,
+    template <typename T>
+    static inline constexpr void store(std::byte *aBuffer, T &&aValue,
                                        std::size_t N) noexcept
     {
         if (__builtin_is_constant_evaluated())
         {
-            return store_constexpr_impl<T, FROM_E, TO_E>()(aBuffer, aValue, N);
+            store_constexpr_impl<FROM_E, TO_E>()(aBuffer,
+                                                 std::forward<T>(aValue), N);
         }
         else
         {
-            const T v = convert<TO_E, FROM_E>(aValue);
+            const auto v = convert<TO_E, FROM_E>(std::forward<T>(aValue));
             if constexpr (TO_E == eEndian::kLittle)
             {
                 std::memcpy(aBuffer, &v, N);
@@ -77,22 +81,25 @@ struct store_impl
 }  // namespace details
 
 template <eEndian TO_E, typename T>
-inline constexpr void store(std::byte *aBuffer, const T &aValue,
+inline constexpr void store(std::byte *aBuffer, T &&aValue,
                             std::size_t N) noexcept
 {
     assert(aBuffer);
     assert(N > 0);
     assert(N <= sizeof(T));
     static_assert(details::is_sizeof_one_of_v<T, 1, 2, 4, 8>);
-    static_assert(details::is_uint_v<T>);
+    static_assert(
+        details::is_uint_v<std::remove_cv_t<std::remove_reference_t<T>>>);
     static_assert((TO_E == eEndian::kLittle) || (TO_E == eEndian::kBig));
-    details::store_impl<T, eEndian::kNative, TO_E>::store(aBuffer, aValue, N);
+    details::store_impl<eEndian::kNative, TO_E>::store(
+        aBuffer, std::forward<T>(aValue), N);
 }
 
 template <eEndian TO_E, typename T>
-inline constexpr void store(std::byte *aBuffer, const T &aValue) noexcept
+inline constexpr void store(std::byte *aBuffer, T &&aValue) noexcept
 {
-    store<TO_E>(aBuffer, aValue, sizeof(T));
+    using u_t = std::remove_cv_t<std::remove_reference_t<T>>;
+    store<TO_E>(aBuffer, std::forward<T>(aValue), sizeof(u_t));
 }
 }  // namespace endian
 

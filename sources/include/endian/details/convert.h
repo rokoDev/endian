@@ -7,9 +7,10 @@
 namespace endian
 {
 template <eEndian To, eEndian From, typename T>
-inline constexpr T convert(T aValue) noexcept
+inline constexpr auto convert(T &&aValue) noexcept
 {
-    static_assert(details::is_uint_v<T>);
+    static_assert(
+        details::is_uint_v<std::remove_cv_t<std::remove_reference_t<T>>>);
     static_assert((To == eEndian::kBig) || (To == eEndian::kLittle));
     static_assert((From == eEndian::kBig) || (From == eEndian::kLittle));
     if constexpr (To == From)
@@ -18,7 +19,7 @@ inline constexpr T convert(T aValue) noexcept
     }
     else
     {
-        return bswap(aValue);
+        return bswap(std::forward<T>(aValue));
     }
 }
 
@@ -29,15 +30,15 @@ inline constexpr void convert_inplace(T &aValue) noexcept
 }
 
 template <eEndian From, typename T>
-inline constexpr T to_native(T aValue) noexcept
+inline constexpr auto to_native(T &&aValue) noexcept
 {
-    return convert<eEndian::kNative, From>(aValue);
+    return convert<eEndian::kNative, From>(std::forward<T>(aValue));
 }
 
 template <eEndian To, typename T>
-inline constexpr T from_native(T aValue) noexcept
+inline constexpr auto from_native(T &&aValue) noexcept
 {
-    return convert<To, eEndian::kNative>(aValue);
+    return convert<To, eEndian::kNative>(std::forward<T>(aValue));
 }
 
 template <eEndian From, typename T>

@@ -548,6 +548,29 @@ TEST_F(Store8BytesOfUInt64, ConstexprToBig)
     static_assert(is_equal_arrays(expected, result));
 }
 
+TEST_F(Store8BytesOfUInt64, RValue)
+{
+    buffer_t actual{};
+    store<eEndian::kLittle>(actual.data(), std::uint64_t{5}, N);
+
+    constexpr const buffer_t expected{std::byte{0x5}, std::byte{}, std::byte{},
+                                      std::byte{},    std::byte{}, std::byte{},
+                                      std::byte{},    std::byte{}};
+    ASSERT_EQ(actual, expected);
+}
+
+TEST_F(Store8BytesOfUInt64, LValue)
+{
+    buffer_t actual{};
+    std::uint64_t value{5};
+    store<eEndian::kLittle>(actual.data(), value, N);
+
+    constexpr const buffer_t expected{std::byte{0x5}, std::byte{}, std::byte{},
+                                      std::byte{},    std::byte{}, std::byte{},
+                                      std::byte{},    std::byte{}};
+    ASSERT_EQ(actual, expected);
+}
+
 using StoreUInt64WithNParam = Store8BytesOfUInt64;
 TEST_F(StoreUInt64WithNParam, ToLittle)
 {
