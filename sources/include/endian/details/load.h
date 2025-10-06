@@ -23,7 +23,7 @@ struct load_constexpr_impl
 template <typename T, eEndian TO_E>
 struct load_constexpr_impl<T, TO_E, eEndian::kLittle>
 {
-    inline constexpr T operator()(std::byte const *aBuffer,
+    inline constexpr T operator()(std::byte const *const aBuffer,
                                   std::size_t N) noexcept
     {
         assert(N <= sizeof(T));
@@ -39,7 +39,7 @@ struct load_constexpr_impl<T, TO_E, eEndian::kLittle>
 template <typename T, eEndian TO_E>
 struct load_constexpr_impl<T, TO_E, eEndian::kBig>
 {
-    inline constexpr T operator()(std::byte const *aBuffer,
+    inline constexpr T operator()(std::byte const *const aBuffer,
                                   std::size_t N) noexcept
     {
         assert(N <= sizeof(T));
@@ -56,7 +56,7 @@ struct load_constexpr_impl<T, TO_E, eEndian::kBig>
 template <typename T, eEndian TO_E, eEndian FROM_E>
 struct load_impl
 {
-    inline constexpr T operator()(std::byte const *aBuffer,
+    inline constexpr T operator()(std::byte const *const aBuffer,
                                   std::size_t N) noexcept
     {
         if (__builtin_is_constant_evaluated())
@@ -83,10 +83,9 @@ struct load_impl
 }  // namespace details
 
 template <typename T, eEndian FROM_E>
-inline constexpr T load(std::byte const *aBuffer, std::size_t N) noexcept
+inline constexpr T load(std::byte const *const aBuffer, std::size_t N) noexcept
 {
     assert(aBuffer);
-    assert(N > 0);
     assert(N <= sizeof(T));
     static_assert(details::is_sizeof_one_of_v<T, 1, 2, 4, 8>);
     static_assert(details::is_uint_v<T>);
@@ -95,20 +94,21 @@ inline constexpr T load(std::byte const *aBuffer, std::size_t N) noexcept
 }
 
 template <typename T, eEndian FROM_E>
-inline constexpr T load(std::byte const *aBuffer) noexcept
+inline constexpr T load(std::byte const *const aBuffer) noexcept
 {
     return load<T, FROM_E>(aBuffer, sizeof(T));
 }
 
 template <eEndian FROM_E, typename T>
-inline constexpr void load_inplace(T &aValue, std::byte const *aBuffer,
+inline constexpr void load_inplace(T &aValue, std::byte const *const aBuffer,
                                    std::size_t N) noexcept
 {
     aValue = load<T, FROM_E>(aBuffer, N);
 }
 
 template <eEndian FROM_E, typename T>
-inline constexpr void load_inplace(T &aValue, std::byte const *aBuffer) noexcept
+inline constexpr void load_inplace(T &aValue,
+                                   std::byte const *const aBuffer) noexcept
 {
     load_inplace<T, FROM_E>(aValue, aBuffer, sizeof(T));
 }

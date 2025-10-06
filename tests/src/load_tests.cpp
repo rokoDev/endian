@@ -34,6 +34,14 @@ class load_template : public ::testing::Test
 };
 
 // load std::uint8_t
+using LoadUInt8From0Byte = load_template<std::uint8_t, 1>;
+TEST_F(LoadUInt8From0Byte, FromLittle)
+{
+    uint_t expected{};
+    uint_t result = load<uint_t, eEndian::kLittle>(buffer, 0);
+    ASSERT_EQ(expected, result);
+}
+
 using LoadUInt8From1Byte = load_template<std::uint8_t, 1>;
 TEST_F(LoadUInt8From1Byte, FromLittle)
 {

@@ -23,7 +23,7 @@ template <eEndian FROM_E>
 struct store_constexpr_impl<FROM_E, eEndian::kLittle>
 {
     template <typename T>
-    inline constexpr void operator()(std::byte *aBuffer, T &&aValue,
+    inline constexpr void operator()(std::byte *const aBuffer, T &&aValue,
                                      std::size_t N) noexcept
     {
         assert(N <= sizeof(T));
@@ -38,7 +38,7 @@ template <eEndian FROM_E>
 struct store_constexpr_impl<FROM_E, eEndian::kBig>
 {
     template <typename T>
-    inline constexpr void operator()(std::byte *aBuffer, T &&aValue,
+    inline constexpr void operator()(std::byte *const aBuffer, T &&aValue,
                                      std::size_t N) noexcept
     {
         assert(N <= sizeof(T));
@@ -54,7 +54,7 @@ template <eEndian FROM_E, eEndian TO_E>
 struct store_impl
 {
     template <typename T>
-    static inline constexpr void store(std::byte *aBuffer, T &&aValue,
+    static inline constexpr void store(std::byte *const aBuffer, T &&aValue,
                                        std::size_t N) noexcept
     {
         if (__builtin_is_constant_evaluated())
@@ -81,11 +81,10 @@ struct store_impl
 }  // namespace details
 
 template <eEndian TO_E, typename T>
-inline constexpr void store(std::byte *aBuffer, T &&aValue,
+inline constexpr void store(std::byte *const aBuffer, T &&aValue,
                             std::size_t N) noexcept
 {
     assert(aBuffer);
-    assert(N > 0);
     assert(N <= sizeof(T));
     static_assert(details::is_sizeof_one_of_v<T, 1, 2, 4, 8>);
     static_assert(
@@ -96,7 +95,7 @@ inline constexpr void store(std::byte *aBuffer, T &&aValue,
 }
 
 template <eEndian TO_E, typename T>
-inline constexpr void store(std::byte *aBuffer, T &&aValue) noexcept
+inline constexpr void store(std::byte *const aBuffer, T &&aValue) noexcept
 {
     using u_t = std::remove_cv_t<std::remove_reference_t<T>>;
     store<TO_E>(aBuffer, std::forward<T>(aValue), sizeof(u_t));

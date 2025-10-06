@@ -31,6 +31,14 @@ constexpr Buf store_result(U aValue) noexcept
 }
 
 // store std::uint8_t
+using Store0ByteOfUInt8 = store_template<std::uint8_t, 1>;
+TEST_F(Store0ByteOfUInt8, ToLittle)
+{
+    const buffer_t expected{std::byte{}};
+    auto result = store_result<buffer_t, eEndian::kLittle, 0>(uint_t{0x1});
+    ASSERT_EQ(expected, result);
+}
+
 using Store1ByteOfUInt8 = store_template<std::uint8_t, 1>;
 TEST_F(Store1ByteOfUInt8, ToLittle)
 {
