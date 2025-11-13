@@ -110,7 +110,7 @@ template <eEndian FROM_E, typename T>
 inline constexpr void load_inplace(T &aValue,
                                    std::byte const *const aBuffer) noexcept
 {
-    load_inplace<T, FROM_E>(aValue, aBuffer, sizeof(T));
+    load_inplace<FROM_E, T>(aValue, aBuffer, sizeof(T));
 }
 }  // namespace endian
 
